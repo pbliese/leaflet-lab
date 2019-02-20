@@ -51,10 +51,14 @@ function onMapClick(e) {
 //Personally I would say remove the above line that ties onMapClick function to the map div data, but decided to keep both here just in case
 mymap.on('click', onMapClick);
 
+//Beginning of GeoJson section, explaining the code moreso than going through steps as the page seemed less a tutorial and more a reference sheet
+//Method to add geojson features to the map, call the variable
+L.geoJSON(geojsonFeature).addTo(map);
 
+//Create a polygon (in this case, the border of a state) that fills in to represent an area
 var states = [{
     "type": "Feature",
-    "properties": {"party": "Republican"},
+    "properties": {"party": "Republican"},//Set properties of the polygon, coordinates
     "geometry": {
         "type": "Polygon",
         "coordinates": [[
@@ -80,23 +84,24 @@ var states = [{
     }
 }];
 
-L.geoJSON(states, {
+L.geoJSON(states, { //Customize the polygons, the color they are based on the properties we assigned above.
     style: function(feature) {
         switch (feature.properties.party) {
             case 'Republican': return {color: "#ff0000"};
             case 'Democrat':   return {color: "#0000ff"};
         }
     }
-}).addTo(mymap);
+}).addTo(mymap);//add polygons to the map
 
+//Create variable for linestring objects
 var myLines = [{
     "type": "LineString",
-    "coordinates": [[-100, 40], [-105, 45], [-110, 55]]
+    "coordinates": [[-100, 40], [-105, 45], [-110, 55]]//Create multiple lines, set the verticies of where the line parts intersect
 }, {
     "type": "LineString",
-    "coordinates": [[-105, 40], [-110, 45], [-115, 55]]
+    "coordinates": [[-105, 40], [-110, 45], [-115, 55]]//Linestring is a string of lines, connected at the specified coordinates
 }];
-
+//Customize the linestrings, color/visualization, placement priority
 var myStyle = {
     "color": "#ff7800",
     "weight": 5,
@@ -105,30 +110,32 @@ var myStyle = {
 
 L.geoJSON(myLines, {
     style: myStyle
-}).addTo(mymap);
+}).addTo(mymap);//add lines to the map
 
+//Set circle markers instead of standard teardrop tags
 var geojsonMarkerOptions = {
     radius: 8,
     fillColor: "#ff7800",
     color: "#000",
     weight: 1,
-    opacity: 1,
+    opacity: 1,//customize the circles, size and color, etc
     fillOpacity: 0.8
 };
 
 L.geoJSON(someGeojsonFeature, {
-    pointToLayer: function (feature, latlng) {
+    pointToLayer: function (feature, latlng) {//set the latitude and longitude to place the circles at, return the coordinates for placement and style options
         return L.circleMarker(latlng, geojsonMarkerOptions);
     }
-}).addTo(mymap);
+}).addTo(mymap);//add circles to the map
 
+//Create an informational popup attatched to the feature points
 function onEachFeature(feature, layer) {
     // does this feature have a property named popupContent?
     if (feature.properties && feature.properties.popupContent) {
         layer.bindPopup(feature.properties.popupContent);
     }
 }
-
+//Create variable to hold the feature points
 var geojsonFeature = {
     "type": "Feature",
     "properties": {
@@ -137,20 +144,21 @@ var geojsonFeature = {
         "popupContent": "This is where the Rockies play!"
     },
     "geometry": {
-        "type": "Point",
+        "type": "Point",//Set properties, geometry of the point, coordinates to define each location
         "coordinates": [-104.99404, 39.75621]
     }
 };
 
 L.geoJSON(geojsonFeature, {
-    onEachFeature: onEachFeature
+    onEachFeature: onEachFeature//Loop function for every geojson feature
 }).addTo(mymap);
 
+//Create variable to hold features for a filter
 var someFeatures = [{
-    "type": "Feature",
+    "type": "Feature",//As above, create points, customize the properties
     "properties": {
         "name": "Coors Field",
-        "show_on_map": true
+        "show_on_map": true //Set boolean for filter- show if true, don't if false
     },
     "geometry": {
         "type": "Point",
@@ -160,7 +168,7 @@ var someFeatures = [{
     "type": "Feature",
     "properties": {
         "name": "Busch Field",
-        "show_on_map": false
+        "show_on_map": false//False, so it won't pass boolean and won't show on map
     },
     "geometry": {
         "type": "Point",
@@ -169,7 +177,7 @@ var someFeatures = [{
 }];
 
 L.geoJSON(someFeatures, {
-    filter: function(feature, layer) {
+    filter: function(feature, layer) {//filter the features, return the ones to display
         return feature.properties.show_on_map;
     }
-}).addTo(mymap);
+}).addTo(mymap);//add selected features to the map
