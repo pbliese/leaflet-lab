@@ -1,0 +1,275 @@
+{
+   "type": "FeatureCollection",
+   "features": [
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 133.7751,-25.2744 ]
+    },
+    "properties": {
+    "Country":"Australia",
+    "Amt_2010":23218,
+    "Amt_2011":26597,
+    "Amt_2012":26217,
+    "Amt_2013":24825,
+    "Amt_2014":25784,
+    "Amt_2015":24046,
+    "Amt_2016":26383,
+    "Amt_2017":27462
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -51.9253,-14.235 ]
+    },
+    "properties": {
+    "Country":"Brazil",
+    "Amt_2010":34003,
+    "Amt_2011":36936,
+    "Amt_2012":33987,
+    "Amt_2013":32875,
+    "Amt_2014":32660,
+    "Amt_2015":24618,
+    "Amt_2016":24225,
+    "Amt_2017":29284
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -106.3468,56.1304 ]
+    },
+    "properties": {
+    "Country":"Canada",
+    "Amt_2010":19361,
+    "Amt_2011":21394,
+    "Amt_2012":20452,
+    "Amt_2013":18516,
+    "Amt_2014":17854,
+    "Amt_2015":17949,
+    "Amt_2016":18133,
+    "Amt_2017":20567
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 103.7905,34.5925 ]
+    },
+    "properties": {
+    "Country":"China",
+    "Amt_2010":115712,
+    "Amt_2011":137967,
+    "Amt_2012":157391,
+    "Amt_2013":179881,
+    "Amt_2014":200772,
+    "Amt_2015":214093,
+    "Amt_2016":216031,
+    "Amt_2017":228231
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 2.6598,46.7358 ]
+    },
+    "properties": {
+    "Country":"France",
+    "Amt_2010":61782,
+    "Amt_2011":64601,
+    "Amt_2012":60035,
+    "Amt_2013":62417,
+    "Amt_2014":63614,
+    "Amt_2015":55342,
+    "Amt_2016":57359,
+    "Amt_2017":57770
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 9.927,51.0643 ]
+    },
+    "properties": {
+    "Country":"Germany",
+    "Amt_2010":46256,
+    "Amt_2011":48140,
+    "Amt_2012":46471,
+    "Amt_2013":45931,
+    "Amt_2014":46103,
+    "Amt_2015":39813,
+    "Amt_2016":41580,
+    "Amt_2017":44330
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 79.2198,22.7515 ]
+    },
+    "properties": {
+    "Country":"India",
+    "Amt_2010":46090,
+    "Amt_2011":49634,
+    "Amt_2012":47217,
+    "Amt_2013":47404,
+    "Amt_2014":50014,
+    "Amt_2015":51296,
+    "Amt_2016":56638,
+    "Amt_2017":63924
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 34.8071,31.0298 ]
+    },
+    "properties": {
+    "Country":"Israel",
+    "Amt_2010":14573,
+    "Amt_2011":16319,
+    "Amt_2012":15456,
+    "Amt_2013":17302,
+    "Amt_2014":18481,
+    "Amt_2015":16963,
+    "Amt_2016":14783,
+    "Amt_2017":16489
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 138.5824,36.2591 ]
+    },
+    "properties": {
+    "Country":"Japan",
+    "Amt_2010":54655,
+    "Amt_2011":60762,
+    "Amt_2012":60012,
+    "Amt_2013":49024,
+    "Amt_2014":46881,
+    "Amt_2015":42106,
+    "Amt_2016":46472,
+    "Amt_2017":45387
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 75.6874,61.9962 ]
+    },
+    "properties": {
+    "Country":"Russia",
+    "Amt_2010":58720,
+    "Amt_2011":70238,
+    "Amt_2012":81469,
+    "Amt_2013":88353,
+    "Amt_2014":84697,
+    "Amt_2015":66419,
+    "Amt_2016":69246,
+    "Amt_2017":66335
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 44.9407,23.7709 ]
+    },
+    "properties": {
+    "Country":"Saudi Arabia",
+    "Amt_2010":45245,
+    "Amt_2011":48531,
+    "Amt_2012":56498,
+    "Amt_2013":67020,
+    "Amt_2014":80726,
+    "Amt_2015":87186,
+    "Amt_2016":63673,
+    "Amt_2017":69414
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ 128.0964,36.5525 ]
+    },
+    "properties": {
+    "Country":"South Korea",
+    "Amt_2010":28175,
+    "Amt_2011":30992,
+    "Amt_2012":31952,
+    "Amt_2013":34137,
+    "Amt_2014":37552,
+    "Amt_2015":36571,
+    "Amt_2016":36935,
+    "Amt_2017":39153
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -3.5798,40.169 ]
+    },
+    "properties": {
+    "Country":"Spain",
+    "Amt_2010":19711,
+    "Amt_2011":19695,
+    "Amt_2012":18861,
+    "Amt_2013":17243,
+    "Amt_2014":17179,
+    "Amt_2015":15189,
+    "Amt_2016":14015,
+    "Amt_2017":16227
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -1.4835,52.5788 ]
+    },
+    "properties": {
+    "Country":"UK",
+    "Amt_2010":58083,
+    "Amt_2011":50270,
+    "Amt_2012":58496,
+    "Amt_2013":56962,
+    "Amt_2014":59183,
+    "Amt_2015":53862,
+    "Amt_2016":48119,
+    "Amt_2017":47193
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -98.0759,38.7586 ]
+    },
+    "properties": {
+    "Country":"US",
+    "Amt_2010":698180,
+    "Amt_2011":711338,
+    "Amt_2012":684780,
+    "Amt_2013":639704,
+    "Amt_2014":609914,
+    "Amt_2015":596105,
+    "Amt_2016":600107,
+    "Amt_2017":609758
+    }
+  }
+]
+}
