@@ -1,43 +1,29 @@
-//geojson.js
 /* Map of GeoJSON data from MegaCities_GEOJSON.geojson */
-
-//function to instantiate the Leaflet map
+//function to instantiate the Leaflet map////Create the map in the function to be called later
 function createMap(){
-    //create the map
+    //create the map////Set the center of the map view and the zoom level- far enough out to see the whole world
     var map = L.map('mapdiv', {
         center: [20, 0],
         zoom: 2
     });
 
-    //add OSM base tilelayer
+    //add OSM base tilelayer////Use the api-key free map from open street map for convenience
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>'
     }).addTo(map);
 
-    //call getData function
+    //call getData function////Call the function created below
     getData(map);
 };
 
-//added at Example 2.3 line 20...function to attach popups to each mapped feature
-function onEachFeature(feature, layer) {
-    //no property named popupContent; instead, create html string with all properties
-    var popupContent = "";
-    if (feature.properties) {
-        //loop to add feature property names and values to html string
-        for (var property in feature.properties){
-            popupContent += "<p>" + property + ": " + feature.properties[property] + "</p>";
-        }
-        layer.bindPopup(popupContent);
-    };
-};
+
 //function to retrieve the data and place it on the map
 function getData(map){
-    //load the data
-    //Example 2.3 line 22...load the data
+    //load the data////use ajax to simplify, load the data efficiently
     $.ajax("data/MegaCities_GEOJSON.geojson", {
         dataType: "json",
         success: function(response){
-            //create marker options
+            //create marker options////Circle markers, define the color and size of the marks. Use this section of code to control the marks
             var geojsonMarkerOptions = {
                 radius: 8,
                 fillColor: "#ff7800",
@@ -47,7 +33,7 @@ function getData(map){
                 fillOpacity: 0.8
             };
 
-            //create a Leaflet GeoJSON layer and add it to the map
+            //create a Leaflet GeoJSON layer and add it to the map////Use response from ajax to loop for each mega city
             L.geoJson(response, {
                 pointToLayer: function (feature, latlng){
                     return L.circleMarker(latlng, geojsonMarkerOptions);
@@ -56,5 +42,5 @@ function getData(map){
         }
     });
 };
-
+////Call the create map function from above to add the data to the document
 $(document).ready(createMap);
