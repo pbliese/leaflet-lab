@@ -1,5 +1,10 @@
 //main.js
 
+//Unused hardcode values for static values
+//Min value: Israel 2010- 14.573
+//Max value: US 2011- 711.338
+//Mean value: 362.9555 or mean of value sum= 91.218842
+
 //function to instantiate the Leaflet map
 function createMap(){
     //create the map////Set map so that whole world can be viewed at the start
@@ -16,6 +21,7 @@ function createMap(){
     //call getData function////Main function of code, processes data and adds it to map
     getData(map);
     overlay(map);////call overlay function to use it, add the fifth operator. Call here so everything else should be done.
+    
 };
 ////Create function to calculate the radius of proportional symbols to be called later
 function calcCircleRadius(attValue) {
@@ -41,6 +47,21 @@ function processData(data){////Function to process data for sequencing
     };
     return attributes;////return the attributes to fill the array
 }
+
+function createPopup(properties, attribute, layer, radius){////Create the popups for the proportional symbols
+    //add city to popup content string
+    var popupContent = "<p><b>Country:</b> " + properties.Country + "</p>";
+    ////Create string for the geographic location identifier and the attribute of the location
+    //add formatted attribute to panel content string
+    var year = attribute.split("_")[1];
+    popupContent += "<p><b>Military Spending in " + year + ":</b> $" + properties[attribute] + " Billion USD</p>";
+
+    //replace the layer popup
+    layer.bindPopup(popupContent, {
+        offset: new L.Point(0,-radius)
+    });
+};
+
 ////REWORK START
 ////So originally, my code looked/was structured differently than the canvas examples. I was thinking if I kept it that way I could understand the logic a bit more.
 ////But towards the end it got too complicated for me to keep track and understand how to make it work, so I reworked it all from the canvas examples. I kept my old code down past the functional code for posterity or something.
@@ -55,6 +76,7 @@ function pointToLayer(feature, latlng, attributes){
         weight: 1,
         opacity: 1,
         fillOpacity: 0.8
+    
     };
 
     //For each feature, determine its value for the selected attribute////Pull the numbers from the geojson data
@@ -66,14 +88,8 @@ function pointToLayer(feature, latlng, attributes){
     //create circle marker layer////use circles instead of markers so they can make nice proportional symbols
     var circleMark = L.circleMarker(latlng, options);
 
-    //build popup content string////Create informative text for popup, format it so it looks nice and readable
-    var popupContent = "<p><b>Country:</b> " + feature.properties.Country + "</p>";
-    var year = attribute.split("_")[1];////split the attribute by the underscore so it appears as someone would write it
-    popupContent += "<p><b>Military Spending in " + year + ":</b> " + feature.properties[attribute] + " Billion USD</p>";////Note the change to Billion USD from the original Million
-    //bind the popup to the circle marker////Give each circle its identifying information
-    circleMark.bindPopup(popupContent, {
-        offset: new L.Point(0, -calcCircleRadius(attValue)) ////offset the popup so it appears above the cirlce by passing the radius as a measurement, won't appear on the symbol
-    });
+    createPopup(feature.properties, attribute, circleMark, options.radius);
+
     circleMark.on({////set the event listener for mousing over the proportional symbols
         mouseover: function(){
             this.openPopup();
@@ -94,6 +110,7 @@ function getData(map){
         success: function(response){
             var attributes = processData(response);
             createPropSymbols(response, map, attributes);////Call functions for making the proportional symbols and sequence bar
+            createLegend(map, attributes)
             createSequenceControls(map, attributes);////Most of the code branches from here, runs all the necessary functions/blocks, then sends it to the map at the end
         }
     });
@@ -108,7 +125,34 @@ function createPropSymbols(data, map, attributes){////Create the proportional sy
         }
     }).addTo(map);
 };
-        
+
+//So, I couldn't get the sequence control to work in the map for some reason. It's 5 am now, and I've been working on it for hours.
+//For some reason if I import the code from the panel controls, they don't run. I put console logs in those sections, and they never fired. At this point, I need sleep.
+/*
+function createSequenceControls(map, attributes){ //BRING IN INDEX AS KEYWORD FROM OUTSIDE VARIABLE?  
+    var SequenceControl = L.Control.extend({
+        options: {
+            position: 'bottomleft'
+        },
+        onAdd: function (map) {
+            // create the control container div with a particular class name
+            var container = L.DomUtil.create('div', 'sequence-control-container');
+            
+            //create range input element (slider)
+            $(container).append('<input class="range-slider" type="range">');
+             //add skip buttons
+            $(container).append('<button class="skip" id="reverse" title="Reverse">Previous</button>');
+            $(container).append('<button class="skip" id="forward" title="Forward">Next</button>');
+            //disable any mouse event listeners for the container
+            L.DomEvent.disableClickPropagation(container);
+            return container;
+         }
+    });
+    map.addControl(new SequenceControl());
+    updateLegend(map, attributes[0])
+};
+*/
+
 function createSequenceControls(map,attributes){////Create the sequence bar slider, skip buttons. Add attributes keyword so it can be passed to the updatePropSymbols later
     //create range input element (slider)
     $('#panel').append('<input class="range-slider" type="range">');////Create panel, append slider to it so it can be visible on web page
@@ -119,16 +163,14 @@ function createSequenceControls(map,attributes){////Create the sequence bar slid
         value: 0,
         step: 1
      });
-     
     $('#panel').append('<button class="skip" id="reverse">Previous</button>');//Add forward and reverse buttons to panel for additional attribute navigation
-    $('#panel').append('<button class="skip" id="forward">Next</button>');
+    $('#panel').append('<button class="skip" id="forward">Next</button>');////append buttons to the panel for increased navigation
     //$('#reverse').html('<img src="img/reverse.png">'); ////Images weren't working for me, so commented them out. The clickable bounding boxes would resize, but the images themselves would not
     //$('#forward').html('<img src="img/forward.png">');
     //Step 5: click listener for buttons
     $('.skip').click(function(){////skip for button, range-slider for sequence bar
         //get the old index value
         var index = $('.range-slider').val();////set variable so it can be changed later
-
         //Step 6: increment or decrement depending on button clicked
         if ($(this).attr('id') == 'forward'){
             index++;////if forward button clicked, increase index value by one, move range slider
@@ -151,7 +193,9 @@ function createSequenceControls(map,attributes){////Create the sequence bar slid
         var index = $(this).val();
         updatePropSymbols(map, attributes[index]);////pass new index to function so it can use it to generate new proportional symbols
     });
+    
 };
+
 function updatePropSymbols(map, attribute){////Function to update proportional symbols based on index attribute given just above
     map.eachLayer(function(layer){
         if (layer.feature && layer.feature.properties[attribute]){////If the layer feature has the attribute selected, function proceeds. Avoids bad/null values
@@ -162,19 +206,111 @@ function updatePropSymbols(map, attribute){////Function to update proportional s
             var radius = calcCircleRadius(props[attribute]);////Call the circle radius function again to update the proportional symbols
             layer.setRadius(radius);////set the new radius for the layer
 
-            //add city to popup content string
-            var popupContent = "<p><b>Country:</b> " + props.Country + "</p>";////create new popup info based on attribute. This section is the same, since only time is changing in my data, not country
-
-            //add formatted attribute to panel content string
-            var year = attribute.split("_")[1];////split Amt_201X so it looks nicer
-            popupContent += "<p><b>Military Spending in " + year + ":</b> " + props[attribute] + " Billion USD</p>";////use new attribute to determine year, budget
-            //replace the layer popup
-            layer.bindPopup(popupContent, {
-                offset: new L.Point(0,-radius)////bind new popup to the layer, set it to float above points nicely
-            });
+            createPopup(props, attribute, layer, radius);
+            updateLegend(map, attribute, panel)////Call functions to make popups and update the legend with the new values
         }
     });
 }
+
+//Calculate the max, mean, and min values for a given attribute
+function getCircleValues(map, attribute){////Acquire values for legend circles
+    //start with min at highest possible and max at lowest possible number
+    var min = Infinity,////Infinity so we know no values are beyond to mess up the code
+        max = -Infinity;
+
+    map.eachLayer(function(layer){
+        //get the attribute value
+        if (layer.feature){
+            var attributeValue = Number(layer.feature.properties[attribute]);////Set variable of attribute value that we can assign values to later
+
+            //test for min
+            if (attributeValue < min){
+                min = attributeValue;////find min value, set attvalue
+            };
+
+            //test for max
+            if (attributeValue > max){
+                max = attributeValue;////find max value, set attvalue
+            };
+        };
+    });
+
+    //set mean
+    var mean = (max + min) / 2;////Create equation for mean using previously found values
+
+    //return values as an object
+    return {
+        max: max,
+        mean: mean,
+        min: min////Return the values so they can be used to update legend
+    };
+};
+
+
+function createLegend(map, attributes){////Create the legend
+    var LegendControl = L.Control.extend({
+        options: {
+            position: 'bottomright'////Set position on the map frame
+        },
+
+        onAdd: function (map) {////extend controls with the onAdd
+             // create the control container with a particular class name////Place legend data in here
+             var container = L.DomUtil.create('div', 'legend-control-container');
+
+             //add temporal legend div to container
+             $(container).append('<div id="temporal-legend">')////create box for data, append it to container created above
+ 
+             //Step 1: start attribute legend svg string
+             var svg = '<svg id="attribute-legend" width="205" height="200" top="10">';////Define svg values
+             var circles = {////Space the text horizontally with these values
+                max: 30,
+                mean: 60,
+                min: 90
+             }; 
+             //Step 2: loop to add each circle and text to svg string
+             for (var circle in circles){
+                //circle string
+                svg += '<circle class="legend-circle" id="' + circle + '" fill="#F47821" fill-opacity="0.8" stroke="#000000" cx="50"/>';////Loop to create circles for legend, set attributes/properties so it displays nicely
+    
+                //text string
+                svg += '<text id="' + circle + '-text" x="100" y="' + circles[circle] + '"></text>';////Loop to get circle values, attributes to add information and understanding to the legend
+            };
+             //close svg string
+             svg += "</svg>";////add the closing tag after information has been added
+             //add attribute legend svg to container
+             $(container).append(svg);////append the svg legend to the container, then return it
+             return container;
+         }
+     });
+ 
+    map.addControl(new LegendControl());////add legend control to the map
+    updateLegend(map, attributes[0]);////call updateLegend function so the sequencing changes the legend as well
+};
+
+//Update the legend with new attribute
+function updateLegend(map, attribute){////Update Legend so it is always relevant to the information displayed
+    //create content for legend
+    var year = attribute.split("_")[1];////Split the year attribute so it displays the year as a standalone, no other string garbling it up
+    var content = "Military Spending in " + year;////Create legend title with the year we obtained above, dynamic title
+
+    //replace legend content
+    $('#temporal-legend').html(content);////Add legend title to the legend
+
+    //get the max, mean, and min values as an object
+    var circleValues = getCircleValues(map, attribute);////acquire circle values from above
+
+    for (var key in circleValues){////loop since we are checking numerous data points
+        //get the radius
+        var radius = calcCircleRadius(circleValues[key]);////get radius from function
+
+        //Step 3: assign the cy and r attributes
+        $('#'+key).attr({
+            cy: 100 - radius,////Determine vertical placement of the legend circles
+            r: radius////Leave circle radius alone
+        });
+        $('#'+key+'-text').text("$" + Math.round(circleValues[key]*100)/100 + " Billion USD");////Create labels for the legend circles
+    };
+};
 
 function overlay(map){////Create overlay function for fifth operator
     var US = L.marker([ 38.7586,-98.0759 ]).bindPopup("The United States has 6,450 nuclear warheads")////define each variable so we can combine them later
