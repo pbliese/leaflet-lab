@@ -1,30 +1,44 @@
 css stlyesheet
 
-/*
-#mapdiv {
-    height: 600px;
-    width: 70%;
-    display: inline-block;
+.leaflet-popup-content p {
+    margin: 0.2em 0;
 }
-*/
-/*
-#panel {
-    width: 26%;
-    padding: 20px;
-    display: inline-block;
-    vertical-align: top;
+
+.sequence-control-container {
+    width: 250px;
+    height: 20px;
+    background-color: rgba(255,255,255,0.8);
+    padding: 10px;
+    line-height: 45px;
     text-align: center;
-    line-height: 42px;
-    top: 10%
+    border: solid gray 1px;
 }
-*/
+
+.legend-control-container {
+    width: 220px;
+    height: 130px;
+    background-color: rgba(255,255,255,0.8);
+    padding: 10px;
+    line-height: 45px;
+    text-align: center;
+    border: solid gray 1px;
+}
+
+#temporal-legend {
+    height: 30px;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    font-size: 15px;
+}
 
 .leaflet-popup-content p {
     margin: 0.2em 0;
 }
 
 .range-slider {
-    width: 50%;
+    width: 100px;
+    height: 20px;
 }
 
 #forward {
